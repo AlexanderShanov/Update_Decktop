@@ -75,8 +75,6 @@ namespace DownLoadFilesVersion
         private void button3_Click(object sender, EventArgs e)
         {
             changeVersionInfoFiles = null;
-            //var programaVersion = new ProgramVersion();
-            //textBox1.Text = programaVersion.GetIdCurrentVersion(rootFolder);
             changeVersionInfoFiles = programaVersion.GetListNameUpdataFiles(programaVersion.GetIdCurrentVersion(rootFolder), comboBox1.SelectedItem.ToString());
             textBox1.Text = changeVersionInfoFiles.filesDelete.Length.ToString();
             textBox2.Text = changeVersionInfoFiles.filesAdd.Length.ToString();
@@ -116,11 +114,21 @@ namespace DownLoadFilesVersion
 
                 textBox3.Text = folderBrowserDialog2.SelectedPath;
 
-                var programaVersion = new ProgramVersion();
-
                 textBox4.Text = programaVersion.GetIdCurrentVersion(rootFolder);
             }
 
+        }
+
+        private void button6_Click(object sender, EventArgs e)
+        {
+            PromgramWork.UpdateFiles(programaVersion.GetIdCurrentVersion(rootFolder), comboBox1.SelectedItem.ToString(), rootFolder);
+
+            //PromgramWork.UpdateFiles();
+        }
+
+        private void button7_Click(object sender, EventArgs e)
+        {
+            PromgramWork.AutoUpdateFiles();
         }
     }
 }

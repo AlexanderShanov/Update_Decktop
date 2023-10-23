@@ -21,31 +21,63 @@ namespace DownLoadFilesVersion
 {
     public class ProgramVersion
     {
-        
+        public event EventHandler<ProgressChangedArgs> ProgressChanged;
+        public string idCurrentVersion;
+        public string idNewVresion;
+        public string rootFolder;
 
         public ProgramVersion()
         {
             
         }
 
-        
-
-        private void UpDate(object startInfo)
+        protected void OnProgressChanged(ProgressChangedArgs e)
         {
+            if (ProgressChanged != null)
+            {
+                ProgressChanged(this, e);
+            }
+        }
+
+
+
+        public void UpDate()
+        {
+
+            var changeVersionInfoFiles = GetListNameUpdataFiles(GetIdCurrentVersion(rootFolder), idNewVresion);
+            DownLoadNewVersion(changeVersionInfoFiles, rootFolder);
+            SetIdCurrentVersion(idNewVresion, rootFolder);
+            
+        }
+
+
+        public void StartWork()
+        {
+            Thread.Sleep(100);
+            for (int i = 0; i <= 100; i++)
+            {
+                if (i < 40)
+                {
+                    OnProgressChanged(new ProgressChangedArgs(i.ToString(), "file12"));
+                }
+                else
+                {
+                    OnProgressChanged(new ProgressChangedArgs(i.ToString(), "file34"));
+                }
+
+                Thread.Sleep(100);
+
+            }
 
         }
 
 
-        public string GetSetting(string key)
-        {
-            string keyValue = ConfigurationManager.OpenExeConfiguration(System.Reflection.Assembly.GetExecutingAssembly().Location).AppSettings.Settings[key].Value;
-            return keyValue;
-        }
-        
+
+
 
         public BuildVersions GetBuildVersions()
         {
-            string ip = GetSetting("ip");
+            string ip = ProgramSettings.GetSetting("ip");
             string URL = "http://" + ip + ":8080/simple/simple2/getAllNameVersion";
 
             string DATA = @"{""object"":{""name"":""Name""}}";
@@ -112,7 +144,7 @@ namespace DownLoadFilesVersion
 
         public ChangeVersionInfoFiles GetListNameUpdataFiles(string idCurrentVersion, string idNewVresion)
         {
-            string ip = GetSetting("ip");
+            string ip = ProgramSettings.GetSetting("ip");
             string URL = "http://" + ip + ":8080/simple/simple2/getListNameUpdataFiles";
             ChangeVersion changeVersion = new ChangeVersion(idCurrentVersion, idNewVresion);
 
@@ -124,7 +156,7 @@ namespace DownLoadFilesVersion
             StreamWriter requestWriter = new StreamWriter(request.GetRequestStream(), System.Text.Encoding.ASCII);
             requestWriter.Write(DATA);
             requestWriter.Close();
-
+            OnProgressChanged(new ProgressChangedArgs(0.ToString(), "Получение списка файлов на обглвлене"));
 
             ChangeVersionInfoFiles changeVersionInfoFiles = null;
             try
@@ -163,8 +195,15 @@ namespace DownLoadFilesVersion
                 }
             }
 
+            int prosent = 0;
+            int k = 0;
             foreach (var file in changeVersionInfoFiles.filesAdd)
             {
+                
+                prosent = Convert.ToInt32((k * 100) / changeVersionInfoFiles.filesAdd.Length) ;
+                OnProgressChanged(new ProgressChangedArgs(prosent.ToString(), file.path));
+
+                k++;
                 var arrayByte = GetFileFromServer(file.idFile);
                 Console.WriteLine("GetFileFromServer." + file.path);
                 string path = file.path;
@@ -192,8 +231,8 @@ namespace DownLoadFilesVersion
                     }
                     
                 }
-                
-
+                prosent = Convert.ToInt32((k * 100) / changeVersionInfoFiles.filesAdd.Length);
+                OnProgressChanged(new ProgressChangedArgs(prosent.ToString(), file.path));
             }
             
 
@@ -203,7 +242,7 @@ namespace DownLoadFilesVersion
         {
             try
             {
-                string ip = GetSetting("ip");
+                string ip = ProgramSettings.GetSetting("ip");
                 string URL = "http://" + ip + ":8080/simple/ControllerMultipart2/" + id.ToString() + "/v12313424";
                 var httpClient = new HttpClient();
                 var arrayBytes = httpClient.GetByteArrayAsync(URL);

@@ -1,0 +1,11 @@
+C:\Work\9_java\UpData\Test_17\TestRequestFrontIntoBackend\Desktop\Update_Decktop\DownLoadFilesVersion\bin\Debug\DownLoadFilesVersion.dll.config
+C:\Work\9_java\UpData\Test_17\TestRequestFrontIntoBackend\Desktop\Update_Decktop\DownLoadFilesVersion\bin\Debug\DownLoadFilesVersion.dll
+C:\Work\9_java\UpData\Test_17\TestRequestFrontIntoBackend\Desktop\Update_Decktop\DownLoadFilesVersion\bin\Debug\DownLoadFilesVersion.pdb
+C:\Work\9_java\UpData\Test_17\TestRequestFrontIntoBackend\Desktop\Update_Decktop\DownLoadFilesVersion\bin\Debug\Newtonsoft.Json.dll
+C:\Work\9_java\UpData\Test_17\TestRequestFrontIntoBackend\Desktop\Update_Decktop\DownLoadFilesVersion\obj\Debug\DownLoadFilesVersion.csproj.AssemblyReference.cache
+C:\Work\9_java\UpData\Test_17\TestRequestFrontIntoBackend\Desktop\Update_Decktop\DownLoadFilesVersion\obj\Debug\DownLoadFilesVersion.csproj.CoreCompileInputs.cache
+C:\Work\9_java\UpData\Test_17\TestRequestFrontIntoBackend\Desktop\Update_Decktop\DownLoadFilesVersion\obj\Debug\DownLoadFilesVersion.csproj.CopyComplete
+C:\Work\9_java\UpData\Test_17\TestRequestFrontIntoBackend\Desktop\Update_Decktop\DownLoadFilesVersion\obj\Debug\DownLoadFilesVersion.dll
+C:\Work\9_java\UpData\Test_17\TestRequestFrontIntoBackend\Desktop\Update_Decktop\DownLoadFilesVersion\obj\Debug\DownLoadFilesVersion.pdb
+C:\Work\9_java\UpData\Test_17\TestRequestFrontIntoBackend\Desktop\Update_Decktop\DownLoadFilesVersion\obj\Debug\DownLoadFilesVersion.FormPrograssBar.resources
+C:\Work\9_java\UpData\Test_17\TestRequestFrontIntoBackend\Desktop\Update_Decktop\DownLoadFilesVersion\obj\Debug\DownLoadFilesVersion.csproj.GenerateResource.cache
