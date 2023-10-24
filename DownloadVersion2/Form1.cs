@@ -122,13 +122,43 @@ namespace DownLoadFilesVersion
         private void button6_Click(object sender, EventArgs e)
         {
             PromgramWork.UpdateFiles(programaVersion.GetIdCurrentVersion(rootFolder), comboBox1.SelectedItem.ToString(), rootFolder);
-
-            //PromgramWork.UpdateFiles();
         }
 
         private void button7_Click(object sender, EventArgs e)
         {
             PromgramWork.AutoUpdateFiles();
+        }
+
+        private void Form1_Load(object sender, EventArgs e)
+        {
+
+        }
+
+        private void button8_Click(object sender, EventArgs e)
+        {
+            FolderBrowserDialog folderBrowserDialog2 = new FolderBrowserDialog();
+            folderBrowserDialog2.SelectedPath = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
+
+
+            DialogResult result = folderBrowserDialog2.ShowDialog();
+
+            if (result == DialogResult.OK)
+            {
+                listBox1.Items.Add(folderBrowserDialog2.SelectedPath);
+
+                
+            }
+        }
+
+        private void button10_Click(object sender, EventArgs e)
+        {
+            List<string> list = new List<string>();
+            foreach (var str in listBox1.Items)
+            {
+                list.Add(str.ToString().Replace("\\", "/"));
+            }
+
+            CreateBuild.Create(list.ToArray());
         }
     }
 }
