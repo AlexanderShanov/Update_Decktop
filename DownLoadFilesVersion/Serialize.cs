@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using DownLoadFilesVersion.Data;
 using Newtonsoft.Json;
 
 namespace DownLoadFilesVersion
@@ -24,5 +25,11 @@ namespace DownLoadFilesVersion
         {
             return JsonConvert.DeserializeObject<ChangeVersionInfoFiles>(json);
         }
+
+        public static string SerializeCreateRequest(RequestValue request)
+        {
+            return JsonConvert.SerializeObject(request, Formatting.Indented);
+        }
+
     }
 }

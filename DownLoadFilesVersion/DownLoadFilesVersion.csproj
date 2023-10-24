@@ -50,6 +50,9 @@
     <Compile Include="BuildVersions.cs" />
     <Compile Include="ChangeVersion.cs" />
     <Compile Include="ChangeVersionInfoFiles.cs" />
+    <Compile Include="CreateBuild.cs" />
+    <Compile Include="Data\RequestValue.cs" />
+    <Compile Include="Data\RequestValueFolder.cs" />
     <Compile Include="FormPrograssBar.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -73,5 +76,6 @@
       <DependentUpon>FormPrograssBar.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
