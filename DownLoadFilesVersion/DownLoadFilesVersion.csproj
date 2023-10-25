@@ -59,6 +59,12 @@
     <Compile Include="FormPrograssBar.Designer.cs">
       <DependentUpon>FormPrograssBar.cs</DependentUpon>
     </Compile>
+    <Compile Include="FormSelectNumberFolder.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormSelectNumberFolder.Designer.cs">
+      <DependentUpon>FormSelectNumberFolder.cs</DependentUpon>
+    </Compile>
     <Compile Include="InfoFile.cs" />
     <Compile Include="ProgramSettings.cs" />
     <Compile Include="ProgramVersion.cs" />
@@ -74,6 +80,9 @@
   <ItemGroup>
     <EmbeddedResource Include="FormPrograssBar.resx">
       <DependentUpon>FormPrograssBar.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormSelectNumberFolder.resx">
+      <DependentUpon>FormSelectNumberFolder.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup />
