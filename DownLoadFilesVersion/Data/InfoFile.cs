@@ -10,5 +10,6 @@ namespace DownLoadFilesVersion
     {
         public int idFile;
         public string path;
+        public string id_target_path;
     }
 }

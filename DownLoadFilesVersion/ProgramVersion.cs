@@ -22,9 +22,9 @@ namespace DownLoadFilesVersion
     public class ProgramVersion
     {
         public event EventHandler<ProgressChangedArgs> ProgressChanged;
-        public string idCurrentVersion;
-        public string idNewVresion;
-        public string rootFolder;
+        //public string idCurrentVersion;
+        //public string idNewVresion;
+        //public string rootFolder;
 
         public ProgramVersion()
         {
@@ -39,41 +39,25 @@ namespace DownLoadFilesVersion
             }
         }
 
-
-
         public void UpDate()
         {
+            string idNewVresion = ProgramSettings.GetSetting("NeedCurrentVersion");
+            if (idNewVresion == null)
+            {
+                return;
+            }
+            else if (idNewVresion == "last")
+            {
+                var buildVersions = GetBuildVersions();
+                idNewVresion = buildVersions.versions.Last();
+            }
+            
 
-            var changeVersionInfoFiles = GetListNameUpdataFiles(GetIdCurrentVersion(rootFolder), idNewVresion);
-            DownLoadNewVersion(changeVersionInfoFiles, rootFolder);
-            SetIdCurrentVersion(idNewVresion, rootFolder);
+            var changeVersionInfoFiles = GetListNameUpdataFiles(GetIdCurrentVersion(), idNewVresion);
+            DownLoadNewVersion(changeVersionInfoFiles);
+            SetIdCurrentVersion(idNewVresion);
             
         }
-
-
-        public void StartWork()
-        {
-            Thread.Sleep(100);
-            for (int i = 0; i <= 100; i++)
-            {
-                if (i < 40)
-                {
-                    OnProgressChanged(new ProgressChangedArgs(i.ToString(), "file12"));
-                }
-                else
-                {
-                    OnProgressChanged(new ProgressChangedArgs(i.ToString(), "file34"));
-                }
-
-                Thread.Sleep(100);
-
-            }
-
-        }
-
-
-
-
 
         public BuildVersions GetBuildVersions()
         {
@@ -110,8 +94,10 @@ namespace DownLoadFilesVersion
             return buildVersions;
         }
 
-        public string GetIdCurrentVersion(string rootFolder)
+        public string GetIdCurrentVersion()
         {
+
+            string rootFolder = ProgramSettings.GetSetting("folderWithCurrentVersion");
             string IdCurrentVersion = "0";
             string path = "CurrentVersion.txt";
             try
@@ -133,8 +119,9 @@ namespace DownLoadFilesVersion
             return IdCurrentVersion;
         }
 
-        public void SetIdCurrentVersion(string idNew, string rootFolder)
+        public void SetIdCurrentVersion(string idNew)
         {
+            string rootFolder = ProgramSettings.GetSetting("folderWithCurrentVersion");
             string path = "CurrentVersion.txt";
             using (StreamWriter writer = new StreamWriter(Path.Combine(rootFolder, path), false))
             {
@@ -146,6 +133,7 @@ namespace DownLoadFilesVersion
         {
             string ip = ProgramSettings.GetSetting("ip");
             string URL = "http://" + ip + ":8080/simple/simple2/getListNameUpdataFiles";
+
             ChangeVersion changeVersion = new ChangeVersion(idCurrentVersion, idNewVresion);
 
             string DATA = Serialize.SerializeChangeVersion(changeVersion);
@@ -182,10 +170,53 @@ namespace DownLoadFilesVersion
             return changeVersionInfoFiles;
         }
 
-        public void DownLoadNewVersion(ChangeVersionInfoFiles changeVersionInfoFiles, string rootFolder)
+        public string GetRootFolder(string idRootForlder)
         {
+            int i = -1;
+            try
+            {
+                try
+                {
+                    i = Convert.ToInt32(idRootForlder);
+                }
+                catch(Exception e)
+                {
+                    //System.Windows.Forms.MessageBox.Show(" Проблемы с билдом " + i++);
+                }
+
+                try
+                {
+                    string[] array = ProgramSettings.GetSetting("rootFolders").Split(';');
+                    return array[i];
+                }
+                catch (Exception)
+                {
+                    /*
+                    System.Windows.Forms.MessageBox.Show(
+                        "В файле настроек недостает целевых адресов в свойстве rootFolders. Минимум: " + i++);*/
+                }
+                
+                
+            }
+            catch (Exception e)
+            {
+
+            }
+            
+
+             
+            return null;
+        }
+
+        public void DownLoadNewVersion(ChangeVersionInfoFiles changeVersionInfoFiles)
+        {
+            
             foreach (var file in changeVersionInfoFiles.filesDelete)
             {
+                string rootFolder = GetRootFolder(file.id_target_path);
+                if (rootFolder == null) continue;
+
+
                 string path = rootFolder + file.path;
                 if (File.Exists(path))
                 {
@@ -208,6 +239,8 @@ namespace DownLoadFilesVersion
                 Console.WriteLine("GetFileFromServer." + file.path);
                 string path = file.path;
                 string[] names = path.Split('/');
+                string rootFolder = GetRootFolder(file.id_target_path);
+                if (rootFolder == null) continue;
                 string current = rootFolder;
                 for (int i = 1; i < names.Length; i++)
                 {

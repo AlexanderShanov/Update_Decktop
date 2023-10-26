@@ -12,6 +12,8 @@ using System.IO;
 using System.Net;
 using Newtonsoft.Json;
 using DownLoadFilesVersion;
+using DownLoadFilesVersion.Data;
+using DownloadVersion2;
 
 namespace DownLoadFilesVersion
 {
@@ -21,107 +23,11 @@ namespace DownLoadFilesVersion
         private ProgramVersion programaVersion = new ProgramVersion();
         private ChangeVersionInfoFiles changeVersionInfoFiles = null;
         private string rootFolder = "";
+        private List<RequestValueFolder> requestFolders = new List<RequestValueFolder>();
 
         public Form1()
         {
             InitializeComponent();
-        }
-
-        private void button1_Click(object sender, EventArgs e)
-        {
-            
-            var buildVersions = programaVersion.GetBuildVersions();
-            comboBox1.Items.Clear();
-            comboBox1.Items.AddRange(buildVersions.versions);
-            
-        }
-
-        private void button2_Click(object sender, EventArgs e)
-        {
-            Class2.CreateObject(textBox2);
-        }
-
-
-
-        public class Class2
-        {
-            private const string URL = "http://localhost:8080/simple/ControllerMultipart/tets1234213/v12313424";
-            //private const string DATA = @"{""object"":{""name"":""Name""}}";
-
-
-            public static void CreateObject(TextBox textBox)
-            {
-                try
-                {
-                    var httpClient = new HttpClient();
-                    var imageBytes = httpClient.GetByteArrayAsync(URL);
-                    textBox.Text = imageBytes.Result.Length.ToString();
-                    var writer = new BinaryWriter(File.OpenWrite("Руководство TERMOCLIP TOOLS.pdf"));
-                    writer.Write(imageBytes.Result);
-                    writer.Close();
-                }
-                catch (Exception e)
-                {
-                    Console.Out.WriteLine("-----------------");
-                    Console.Out.WriteLine(e.Message);
-                }
-
-            }
-
-           
-
-        }
-
-        private void button3_Click(object sender, EventArgs e)
-        {
-            changeVersionInfoFiles = null;
-            changeVersionInfoFiles = programaVersion.GetListNameUpdataFiles(programaVersion.GetIdCurrentVersion(rootFolder), comboBox1.SelectedItem.ToString());
-            textBox1.Text = changeVersionInfoFiles.filesDelete.Length.ToString();
-            textBox2.Text = changeVersionInfoFiles.filesAdd.Length.ToString();
-            programaVersion.DownLoadNewVersion(changeVersionInfoFiles, rootFolder);
-            programaVersion.SetIdCurrentVersion(comboBox1.SelectedItem.ToString(), rootFolder);
-            textBox4.Text = programaVersion.GetIdCurrentVersion(rootFolder);
-
-        }
-
-        private void label1_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void button4_Click(object sender, EventArgs e)
-        {
-            //label3.Text =  programaVersion.GetSetting();
-
-        }
-
-        private void folderBrowserDialog1_HelpRequest(object sender, EventArgs e)
-        {
-
-        }
-
-        private void button5_Click(object sender, EventArgs e)
-        {
-            FolderBrowserDialog folderBrowserDialog2 = new FolderBrowserDialog();
-            folderBrowserDialog2.SelectedPath = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
-
-
-            DialogResult result = folderBrowserDialog2.ShowDialog();
-
-            if (result == DialogResult.OK)
-            {
-                rootFolder = folderBrowserDialog2.SelectedPath;
-
-                textBox3.Text = folderBrowserDialog2.SelectedPath;
-
-                textBox4.Text = programaVersion.GetIdCurrentVersion(rootFolder);
-            }
-
-        }
-
-        private void button6_Click(object sender, EventArgs e)
-        {
-            PromgramWork.UpdateFiles(programaVersion.GetIdCurrentVersion(rootFolder), comboBox1.SelectedItem.ToString(), rootFolder);
         }
 
         private void button7_Click(object sender, EventArgs e)
@@ -144,25 +50,43 @@ namespace DownLoadFilesVersion
 
             if (result == DialogResult.OK)
             {
-                listBox1.Items.Add(folderBrowserDialog2.SelectedPath);
-
-                
+                FormSelectNumberFolder formSelectNumberFolder = new FormSelectNumberFolder();
+                formSelectNumberFolder.ShowDialog();
+                if (formSelectNumberFolder.NumberOfFolders != -1)
+                {
+                    string pathValue = folderBrowserDialog2.SelectedPath.Replace("\\", "/");
+                    requestFolders.Add(new RequestValueFolder(pathValue, formSelectNumberFolder.NumberOfFolders.ToString()));
+                    listBox1.Items.Add("number target folder: " + formSelectNumberFolder.NumberOfFolders.ToString() 
+                                                                + " value folder:  " + pathValue);
+                }
             }
-            System.Windows.Forms.MessageBoxButtons buttons = new System.Windows.Forms.MessageBoxButtons();
-            
-
-            System.Windows.Forms.MessageBox.Show();
         }
+
 
         private void button10_Click(object sender, EventArgs e)
         {
-            List<string> list = new List<string>();
-            foreach (var str in listBox1.Items)
+            CreateBuild.Create(requestFolders);
+        }
+
+        private void button9_Click(object sender, EventArgs e)
+        {
+            OpenFileDialog openFileDialog2 = new OpenFileDialog();
+            DialogResult dialogResult = openFileDialog2.ShowDialog();
+
+            if (dialogResult == DialogResult.OK)
             {
-                list.Add(str.ToString().Replace("\\", "/"));
+                FormSelectNumberFolder formSelectNumberFolder = new FormSelectNumberFolder();
+                formSelectNumberFolder.ShowDialog();
+                if (formSelectNumberFolder.NumberOfFolders != -1)
+                {
+                    string pathValue = openFileDialog2.SafeFileName.Replace("\\", "/");
+                    requestFolders.Add(new RequestValueFolder(pathValue, formSelectNumberFolder.NumberOfFolders.ToString()));
+                    listBox1.Items.Add("number target folder: " + formSelectNumberFolder.NumberOfFolders.ToString()
+                                                                + " value file:  " + pathValue);
+                }
             }
 
-            CreateBuild.Create(list.ToArray());
+
         }
     }
 }

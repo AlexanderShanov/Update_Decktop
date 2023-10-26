@@ -6,14 +6,14 @@ using System.Threading.Tasks;
 
 namespace DownLoadFilesVersion.Data
 {
-    class RequestValueFolder
+    public class RequestValueFolder
     {
         public string currantUnit;
-        public string targetFolder;
-        public RequestValueFolder(string currantUnit, string targetFolder)
+        public string idTargetFirstPath;
+        public RequestValueFolder(string currantUnit, string idTargetFirstPath)
         {
             this.currantUnit = currantUnit;
-            this.targetFolder = targetFolder;
+            this.idTargetFirstPath = idTargetFirstPath;
         }
     }
 }

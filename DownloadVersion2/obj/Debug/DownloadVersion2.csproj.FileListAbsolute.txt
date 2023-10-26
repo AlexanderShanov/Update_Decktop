@@ -15,3 +15,4 @@ C:\Work\9_java\UpData\Test_17\TestRequestFrontIntoBackend\Desktop\Update_Decktop
 C:\Work\9_java\UpData\Test_17\TestRequestFrontIntoBackend\Desktop\Update_Decktop\DownloadVersion2\obj\Debug\DownloadVersion2.csproj.CopyComplete
 C:\Work\9_java\UpData\Test_17\TestRequestFrontIntoBackend\Desktop\Update_Decktop\DownloadVersion2\obj\Debug\DownloadVersion2.exe
 C:\Work\9_java\UpData\Test_17\TestRequestFrontIntoBackend\Desktop\Update_Decktop\DownloadVersion2\obj\Debug\DownloadVersion2.pdb
+C:\Work\9_java\UpData\Test_17\TestRequestFrontIntoBackend\Desktop\Update_Decktop\DownloadVersion2\obj\Debug\DownloadVersion2.FormSelectNumberFolder.resources
