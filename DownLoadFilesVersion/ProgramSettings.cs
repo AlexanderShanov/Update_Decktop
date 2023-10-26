@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace DownLoadFilesVersion
 {
-    class ProgramSettings
+    public class ProgramSettings
     {
         public static string  GetSetting(string key)
         {
