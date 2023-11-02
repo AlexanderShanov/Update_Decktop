@@ -17,7 +17,6 @@ namespace DownLoadFilesVersion
             requestValue.myArray = list.ToArray();
 
 
-
             string ip = ProgramSettings.GetSetting("ip");
             string URL = "http://" + ip + ":8080/simple/simple2/CreateNewBuildFromDecktopRequest";
 
